@@ -23,7 +23,7 @@ def get_entreprise_infos(nom, code_postal=None, adresse=None):
     data = response.json()
     results = data.get("results", [])
     if not results:
-        return pd.DataFrame(columns=["Nom Entreprise", "Adresse", "Code Postal", "SIREN", "TVA"])
+        return pd.DataFrame(columns=["Nom Entreprise", "SIREN", "Code Postal", "TVA", "Adresse"])
     r = results[0]
     nom_ent = r.get("nom_complet")
     siege = r.get("siege", {})
@@ -39,10 +39,9 @@ def get_entreprise_infos(nom, code_postal=None, adresse=None):
     tva = tva_fr(siren)
     row = {
         "Nom Entreprise": nom_ent,
-        "Code Postal": code_postal_ent,
         "SIREN": siren,
         "TVA": tva,
-        "Adresse": adresse_ent,
         "Code Postal": code_postal_ent,
+        "Adresse": adresse_ent
     }
     return pd.DataFrame([row])
